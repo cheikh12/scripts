@@ -1,0 +1,15 @@
+1. Retrouver les logs su repository
+2. Recupèrer la liste des paquets concernés par le commit:
+      2.1 -> Recupérer les chemins absolus des fichiers commités
+                Les fichiers non sources peuvent être exclus?
+      2.2 -> Retrouver les paquets correspondants en se basant les fichiers du gitlab
+3. Pour tous les paquets concernés
+      faire les tests de builds
+        si un échoue alors
+            envoyer un mail
+
+Se baser sur les informations du commit pour n'en rater aucun
+
+Solutions:
+1. - cloner le repo sur le serveur une première fois
+   - récupérer juste les changements du commiter
