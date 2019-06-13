@@ -1,0 +1,16 @@
+http://r-pkgs.had.co.nz/tests.html
+
+liens pour installer ancienne version de package R:
+
+https://support.rstudio.com/hc/en-us/articles/219949047-Installing-older-versions-of-packages
+https://gitlab.dtg.dpih.edf.fr/domaine-eau/test_CI/raw/master/DtgTestCI/pomrDeploiementEtape1.sh
+
+lien de configuration de travisCI avec R:
+https://towardsdatascience.com/travis-ci-for-r-advanced-guide-719cb2d9e0e5
+
+git log :  
+https://git-scm.com/book/en/v2/Git-Basics-Viewing-the-Commit-History
+
+Forker un repo:
+https://help.github.com/en/articles/fork-a-repo
+https://help.github.com/en/articles/syncing-a-fork
