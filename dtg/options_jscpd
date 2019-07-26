@@ -1,9 +1,10 @@
 Les options jscpd peuvent être passées en lignes de commandes ou être regroupées dans des fichiers de conf.
 
-======================== Options =============================
+==================================================== Options =======================================================
 Options :
 -> --min-tokens ou -k
-	spécifie le nombre de "tokens"(mots du langage) minimal dans les blocks 	de code à analyser. En deça de la valeur indiquée, le block sera ignoré.
+	spécifie le nombre de "tokens"(mots du langage) minimal dans les blocks de code à analyser. 
+	En deça de la valeur indiquée, le block sera ignoré.
 	la valeur par defaut des de 50.
 
 -> --min-lines ou -l
@@ -11,7 +12,8 @@ Options :
 	valeur par défaut: 5
 
 -> --max-lines ou -x
-	le nombre maximum de lignes dans les blocks. Par défaut sa valeur des de 	500 par block. Tout block qui fait plus que 500 lignes sera ingoré.
+	le nombre maximum de lignes dans les blocks. Par défaut sa valeur des de
+	500 par block. Tout block qui fait plus que 500 lignes sera ingoré.
 
 -> --max-size ou -z 
 	l'option est de type string
@@ -28,6 +30,273 @@ Options :
 
 --> --config ou -c
 	Spécifie le fichier de configuration à utiliser pour l'analyse
-================================= Les configurations ===========================
+	
+--> --reporters ou -r
+	Indique le type de fichier de sortie. en effet le résultat de l'analyse jscpd peut être sauvegardé
+	dans un fichier ./report/report_jscpd.(JSON_ou_html_ect). Le dossier d'enregistrement de ces fichiers
+	peut être spécifié avec l'option -output ou -o suivi du chemin vers le repertoire.
+	Les types de reporters sont :
+    	            console - report about clones to console;
+    		    consoleFull - report about clones to console with blocks of code;
+		    json - output jscpd-report.json file with clones report in json format;
+		    xml - output jscpd-report.xml file with clones report in xml format;
+		    html - output jscpd-report.html file with clones report;
+		    verbose - output a lot of debug information to console;
+		    time - output all time of execution
+	Note: On peut créer un type de reporter manuellemeent , (voir dans l'API)
+	
+--> --ignoreCase
+	    Ignore case of symbols in code (experimental).
+	    Cli options: --ignoreCase
+	    Type: boolean
+	    Default: false
+
+--> --mode ou -m
+
+	The mode of detection quality.
+	    strict - use all types of symbols as token, skip only blocks marked as ignored.
+	    mild - skip blocks marked as ignored and new lines and empty symbols.
+	    weak - skip blocks marked as ignored and new lines and empty symbols and comments.
+	    
+	    Note: A mode can be developed manually, see API section.
+	    Cli options: --mode, -m
+	    Type: string
+	    Default: mild
+
+--> --format ou -f
+	The list of formats to detect for duplications. Available over 150 formats.
+
+	Example:
+
+	$ jscpd --format "php,javascript,markup,css" /path/to/files
+
+	    Cli options: --format, -f
+	    Type: string
+	    Default: {all formats}
+--> --blame
+	Get information about authors and dates of duplicated blocks from git.
+	    Cli options: --blame, -b
+	    Type: boolean
+	    Default: false
+	    
+--> --silent ou -s
+		Don't write a lot of information to a console.
+
+		Example:
+
+		$ jscpd /path/to/source --silent
+		Duplications detection: Found 60 exact clones with 3414(46.81%) duplicated lines in 100 (31 formats) files.
+		Execution Time: 1381.759ms
+
+		    Cli options: --silent, -s
+		    Type: boolean
+		    Default: false
+		    
+--> --absolute ou -a
+       Use the absolute path in reports.
+       Cli options: --absolute, -a
+       Type: boolean
+       Default: false
+       
+--> noSymlinks
+	    Do not follow symlinks.
+	    Cli options: --noSymlinks, -n
+	    Type: boolean
+	    Default: false
+
+
+
+================================================ Les configurations ====================================================
 
 On ajoute --config suivi du chemin du fichier e configuration qui doit être au format json.	
+Il faut créer un fichier .jscpd.json dans la racine du projet comme l'esxemple suivant.
+{
+  "threshold": 0.1,
+  "reporters": ["html", "console", "badge"],
+  "ignore": ["**/__snapshots__/**"],
+  "absolute": true
+}
+
+=========================================================================================================================
+Also you can use section in package.json:
+
+{
+  ...
+  "jscpd": {
+    "threshold": 0.1,
+    "reporters": ["html", "console", "badge"],
+    "ignore": ["**/__snapshots__/**"],
+    "absolute": true,
+    "gitignore": true
+  }
+  ...
+}
+ 
+ 
+
+Ignored Blocks
+
+Mark blocks in code as ignored:
+
+/* jscpd:ignore-start */
+import lodash from 'lodash';
+import React from 'react';
+import {User} from './models';
+import {UserService} from './services';
+/* jscpd:ignore-end */
+
+<!--jscpd:ignore-start-->
+<meta data-react-helmet="true" name="theme-color" content="#cb3837"/>
+<link data-react-helmet="true" rel="stylesheet" href="https://static.npmjs.com/103af5b8a2b3c971cba419755f3a67bc.css"/>
+<link data-react-helmet="true" rel="stylesheet" href="https://static.npmjs.com/cms/flatpages.css"/>
+<link data-react-helmet="true" rel="apple-touch-icon" sizes="120x120" href="https://static.npmjs.com/58a19602036db1daee0d7863c94673a4.png"/>
+<link data-react-helmet="true" rel="apple-touch-icon" sizes="144x144" href="https://static.npmjs.com/7a7ffabbd910fc60161bc04f2cee4160.png"/>
+<link data-react-helmet="true" rel="apple-touch-icon" sizes="152x152" href="https://static.npmjs.com/34110fd7686e2c90a487ca98e7336e99.png"/>
+<link data-react-helmet="true" rel="apple-touch-icon" sizes="180x180" href="https://static.npmjs.com/3dc95981de4241b35cd55fe126ab6b2c.png"/>
+<link data-react-helmet="true" rel="icon" type="image/png" href="https://static.npmjs.com/b0f1a8318363185cc2ea6a40ac23eeb2.png" sizes="32x32"/>
+<!--jscpd:ignore-end-->
+
+JSCPD Reporters
+HTML
+
+Demo report
+Badge
+
+jscpd
+
+More info jscpd-badge-reporter
+PMD CPD XML
+
+<?xml version="1.0" encoding="utf-8"?>
+<pmd-cpd>
+  <duplication lines="10">
+      <file path="/path/to/file" line="1">
+        <codefragment><![CDATA[ ...first code fragment... ]]></codefragment>
+      </file>
+      <file path="/path/to/file" line="5">
+        <codefragment><![CDATA[ ...second code fragment...}]]></codefragment>
+      </file>
+      <codefragment><![CDATA[ ...duplicated fragment... ]]></codefragment>
+  </duplication>
+</pmd-cpd>
+
+JSON reporters
+
+{
+  "duplications": [{
+      "format": "javascript",
+      "lines": 27,
+      "fragment": "...code fragment... ",
+      "tokens": 0,
+      "firstFile": {
+        "name": "tests/fixtures/javascript/file2.js",
+        "start": 1,
+        "end": 27,
+        "startLoc": {
+          "line": 1,
+          "column": 1
+        },
+        "endLoc": {
+          "line": 27,
+          "column": 2
+        }
+      },
+      "secondFile": {
+        "name": "tests/fixtures/javascript/file1.js",
+        "start": 1,
+        "end": 24,
+        "startLoc": {
+          "line": 1,
+          "column": 1
+        },
+        "endLoc": {
+          "line": 24,
+          "column": 2
+        }
+      }
+  }],
+  "statistic": {
+    "detectionDate": "2018-11-09T15:32:02.397Z",
+    "formats": {
+      "javascript": {
+        "sources": {
+          "/path/to/file": {
+            "lines": 24,
+            "sources": 1,
+            "clones": 1,
+            "duplicatedLines": 26,
+            "percentage": 45.33,
+            "newDuplicatedLines": 0,
+            "newClones": 0
+          }
+        },
+        "total": {
+          "lines": 297,
+          "sources": 1,
+          "clones": 1,
+          "duplicatedLines": 26,
+          "percentage": 45.33,
+          "newDuplicatedLines": 0,
+          "newClones": 0
+        }
+      }
+    },
+    "total": {
+      "lines": 297,
+      "sources": 6,
+      "clones": 5,
+      "duplicatedLines": 26,
+      "percentage": 45.33,
+      "newDuplicatedLines": 0,
+      "newClones": 0
+    },
+    "threshold": 10
+  }
+}
+
+API
+
+import {
+  JSCPD, 
+  IClone,
+  IOptions, 
+  MATCH_SOURCE_EVENT, 
+  CLONE_FOUND_EVENT,
+  SOURCE_SKIPPED_EVENT,
+  END_EVENT
+} from 'jscpd';
+ 
+const options: IOptions = {};
+ 
+const cpd = new JSCPD(options);
+ 
+const code = '...string with my code...';
+ 
+cpd.on(MATCH_SOURCE_EVENT, (source) => {
+  // new source detection started
+  console.log(source);
+});
+ 
+cpd.on(CLONE_FOUND_EVENT, (clone: IClone) => {
+  // clone found event
+  console.log(clone);
+});
+ 
+cpd.on(SOURCE_SKIPPED_EVENT, (stat) => {
+  // skipped source due size (see max-size, min-lines and max-lines options)
+  console.log(stat);
+});
+ 
+cpd.on(END_EVENT, (clones: IClone[]) => {
+  // detection process finished
+  console.log(clones);
+});
+ 
+cpd.detect(code, { id: 'test', format: 'markup' })
+  .then((clones: IClone[]) => console.log(clones));
+ 
+ 
+cpd.detectInFiles(['./src', './tests'])
+  .then((clones: IClone[]) => console.log(clones));
+ 
+https://www.npmjs.com/package/jscpd
