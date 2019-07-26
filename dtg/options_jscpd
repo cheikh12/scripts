@@ -1,0 +1,33 @@
+Les options jscpd peuvent être passées en lignes de commandes ou être regroupées dans des fichiers de conf.
+
+======================== Options =============================
+Options :
+-> --min-tokens ou -k
+	spécifie le nombre de "tokens"(mots du langage) minimal dans les blocks 	de code à analyser. En deça de la valeur indiquée, le block sera ignoré.
+	la valeur par defaut des de 50.
+
+-> --min-lines ou -l
+	nombre de lignes minimal dans les blocks de code à analyser. 
+	valeur par défaut: 5
+
+-> --max-lines ou -x
+	le nombre maximum de lignes dans les blocks. Par défaut sa valeur des de 	500 par block. Tout block qui fait plus que 500 lignes sera ingoré.
+
+-> --max-size ou -z 
+	l'option est de type string
+	taille maximale d'un fichier dans les sources à analyser.
+	Par defaut : 30Kb
+
+--> Threshold ou seuil
+	Seuil du niveau de duplication.
+	Option de type numérique avec une valeur par défaut à null.
+
+--> --ignore ou -i
+	option pour spécifier les types de fichiers à ignorer. elle doit être 
+	d'une expression régulière entre guillemets. Ex : jscpd --ignore "**/*.min, **/*.map, **/.o"  /path/to/files
+
+--> --config ou -c
+	Spécifie le fichier de configuration à utiliser pour l'analyse
+================================= Les configurations ===========================
+
+On ajoute --config suivi du chemin du fichier e configuration qui doit être au format json.	
